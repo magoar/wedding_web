@@ -44,8 +44,8 @@ A simple Ruby on Rails application to share the details of a wedding and allow g
    `bundle install && yarn install`
 
 3. Set up the database:  
-   bin/rails db:create
-   bin/rails db:migrate
+   `bin/rails db:create`
+   `bin/rails db:migrate`
 
 5. Start the Rails server:
-   bin/rails server
+   `bin/rails server`
