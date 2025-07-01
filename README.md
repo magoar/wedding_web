@@ -38,7 +38,7 @@ A simple Ruby on Rails application to share the details of a wedding and allow g
 ## 🚀 Getting Started
 
 1. Clone the repository:
-   `git clone https://github.com/yourusername/wedding_web.git`
+   `git clone git@github.com:magoar/wedding_web.git`
 
 2. Install dependencies:
    `bundle install && yarn install`
