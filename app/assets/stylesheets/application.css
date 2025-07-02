@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+/* HERE I CAN ADD MY CUSTOM CLASSES OF CSS */
+
+.my-custom-class {
+  color: crimson;
+  font-weight: bold;
+}
