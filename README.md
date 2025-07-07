@@ -48,4 +48,4 @@ A simple Ruby on Rails application to share the details of a wedding and allow g
    `bin/rails db:migrate`
 
 5. Start the Rails server:
-   `bin/rails server`
+   `bin/dev`
