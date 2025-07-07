@@ -1,0 +1,10 @@
+<!-- app/views/shared/_navbar.html.erb -->
+<nav class="bg-violet-600 text-white p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <span class="font-thin text-4xl">Mi Boda</span>
+    <ul class="flex gap-4">
+      <li><%= link_to "Confirm Attendance", new_confirmation_path, class: "hover:underline" %></li>
+      <li><%= link_to "Photo Galery", gallery_path, class: "hover:underline" %></li>
+    </ul>
+  </div>
+</nav>

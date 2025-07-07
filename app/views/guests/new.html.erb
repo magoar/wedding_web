@@ -1,0 +1,28 @@
+<div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+  <h1 class="font-bold text-4xl mb-4">Confirm Attendance</h1>
+  <% if @guest.errors.any? %>
+    <div class="mb-4 bg-red-100 text-red-700 p-4 rounded">
+      <h2 class="font-bold mb-2">Please fix the following errors:</h2>
+      <ul class="list-disc pl-5">
+        <% @guest.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form_with(url: confirmations_path, scope: :guest, local: true) do |f| %>
+    <div class="mb-4">
+      <%= f.label :name, "Name", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.text_field :name, class: "w-full border rounded px-3 py-2" %>
+    </div>
+    <div class="mb-4">
+      <%= f.label :guests_count, "Number of companions", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.number_field :guests_count, min: 0, class: "w-full border rounded px-3 py-2" %>
+    </div>
+    <div class="mb-4">
+      <%= f.label :message, "Message (optional)", class: "block text-gray-700 font-semibold mb-2" %>
+      <%= f.text_area :message, rows: 3, class: "w-full border rounded px-3 py-2" %>
+    </div>
+    <%= f.submit "Send", class: "bg-violet-700 text-white px-4 py-2 rounded hover:bg-violet-800 transition" %>
+  <% end %>
+</div>

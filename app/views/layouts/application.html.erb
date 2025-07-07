@@ -12,8 +12,17 @@
   </head>
 
   <body>
-    <main class="container mx-auto px-5 flex">
-      <%= yield %>
-    </main>
+    <% if flash[:notice] %>
+      <div id="flash-notice" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-lg font-semibold">
+        <%= flash[:notice] %>
+      </div>
+      <script>
+        setTimeout(function() {
+          var flash = document.getElementById('flash-notice');
+          if (flash) { flash.style.display = 'none'; }
+        }, 3000);
+      </script>
+    <% end %>
+    <%= yield %>
   </body>
 </html>
