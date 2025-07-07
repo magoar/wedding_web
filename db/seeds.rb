@@ -7,3 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+# Create some example albums
+Album.create!(title: "Wedding Day", description: "Photos from the wedding ceremony and celebration.")
+Album.create!(title: "After Party", description: "Fun moments from the after party with friends and family.")
