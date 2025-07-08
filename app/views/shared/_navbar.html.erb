@@ -1,10 +1,13 @@
 <!-- app/views/shared/_navbar.html.erb -->
-<nav class="bg-violet-600 text-white p-4">
+<nav class="text-white p-4">
   <div class="container mx-auto flex justify-between items-center">
-    <span class="font-thin text-4xl">Mi Boda</span>
-    <ul class="flex gap-4">
-      <li><%= link_to "Confirm Attendance", new_confirmation_path, class: "hover:underline" %></li>
+    <span class="font-thin text-4xl">A&A</span>
+    <ul class="flex gap-12 items-center">
+      <li><%= link_to "Location", gallery_path, class: "hover:underline" %></li>
       <li><%= link_to "Photo Galery", gallery_path, class: "hover:underline" %></li>
+      <li><%= link_to "RSVP", new_confirmation_path, class: " inline-block text-white border border-white px-8 py-4 text-lg hover:bg-white hover:text-black transition" %>
+</li>
+
     </ul>
   </div>
 </nav>
