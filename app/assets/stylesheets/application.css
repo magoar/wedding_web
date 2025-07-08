@@ -14,10 +14,8 @@
 
 @import "tailwindcss";
 
-/* HERE I CAN ADD MY CUSTOM CLASSES OF CSS */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
-
-.my-custom-class {
-  color: crimson;
-  font-weight: bold;
+.font-playfair {
+  font-family: 'Playfair Display', serif;
 }
