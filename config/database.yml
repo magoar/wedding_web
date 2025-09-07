@@ -77,8 +77,6 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+
 production:
-  <<: *default
-  database: wedding_web_production
-  username: wedding_web
-  password: <%= ENV["WEDDING_WEB_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
