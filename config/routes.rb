@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   # Routes for guests confirmation
   # resources :guests, only: [:new, :create], path: "confirmation", as: :confirmations
+  get "guests", to: "guests#index", as: :guests
   get "confirmation", to: "guests#new", as: :new_confirmation
   post "confirmation", to: "guests#create", as: :confirmations
 

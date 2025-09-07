@@ -1,13 +1,14 @@
 <!-- app/views/shared/_navbar.html.erb -->
-<nav class="text-white p-4">
-  <div class="container mx-auto flex justify-between items-center">
-    <span class="font-thin text-4xl">A&A</span>
-    <ul class="flex gap-12 items-center">
-      <li><a href="#location" class="hover:underline">Location</a></li>
-      <li><%= link_to "Photo Galery", gallery_path, class: "hover:underline" %></li>
-      <li><%= link_to "RSVP", new_confirmation_path, class: " inline-block text-white border border-white px-8 py-4 text-lg hover:bg-white hover:text-black transition" %>
-</li>
 
-    </ul>
+<nav class="sticky top-0 z-40 bg-white h-10 flex items-center py-8 cormorant-garamond">
+  <div class="container mx-auto flex justify-between items-center h-10 px-4">
+
+    <!-- Logo / Nombre -->
+    <%= link_to root_path, class: "text-2xl font-light texto-color-rojo flex" do %>
+    <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-10 h-10" %>
+      A&A
+    <% end %>
+    <!-- Botón RSVP -->
+    <%= link_to "RSVP", new_confirmation_path, class: "color-principal text-white px-3 h-8 flex items-center rounded hover:bg-red-700 transition text-base" %>
   </div>
 </nav>

@@ -1,0 +1,14 @@
+<!-- app/views/shared/_navbar.html.erb -->
+<nav class="bg-gray-100 p-4">
+  <div class="container mx-auto flex justify-around items-center">
+    <%= link_to root_path do%>
+      <span class="font-thin text-4xl">A&A</span>
+      <span class="text-3xl font-thin text-black/80 ms-4">Photo Gallery</span>
+    <% end %>
+
+    <ul class="flex gap-12 items-center">
+
+      <li><%= link_to "Add New Album", new_album_path, class: "inline-block text-black/80 border border-black/40 font-thin px-8 py-4 hover:bg-black/80 hover:text-white transition" %></li>
+    </ul>
+  </div>
+</nav>

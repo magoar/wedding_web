@@ -19,3 +19,53 @@
 .font-playfair {
   font-family: 'Playfair Display', serif;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  pointer-events: none;
+}
+
+.color-principal {
+  background-color: #c22b3e;
+}
+
+.texto-color-rojo
+{
+  color: #c22b3e;
+}
+
+#splash {
+  transition: transform 1s cubic-bezier(0.77,0,0.175,1), opacity 1s;
+  transform-origin: left center;
+}
+#splash.page-turn {
+  transform: perspective(800px) rotateY(-100deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.great-vibes {
+  font-family: 'Great Vibes', cursive;
+}
+
+.color-gold {
+  color: #EEBA2A;
+}
+
+
+@font-face {
+      font-family: 'Magnolia Script';
+      src: url('<%= asset_path("MagnoliaScript.otf") %>') format('opentype');
+      font-weight: bold;
+      font-style: cursive;
+    }
+
+.magnolia-script {
+  font-family: 'Magnolia Script', cursive;
+}
+
+.cormorant-garamond {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}

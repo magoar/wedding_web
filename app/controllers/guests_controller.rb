@@ -1,4 +1,9 @@
 class GuestsController < ApplicationController
+
+  def index
+    @guests = Guest.all
+    @total = @guests.sum { |g| 1 + (g.guests_count || 0) }
+  end
   def new
     @guest = Guest.new
   end
@@ -6,7 +11,7 @@ class GuestsController < ApplicationController
   def create
     @guest = Guest.new(guest_params)
     if @guest.save
-      redirect_to root_path, notice: "Confirmation successfully sended."
+      redirect_to root_path, notice: "Confirmation successfully sended. Thank you!"
     else
       render :new, status: :unprocessable_entity
     end

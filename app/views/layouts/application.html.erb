@@ -6,14 +6,19 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap", rel: "stylesheet" %>
     <%= stylesheet_link_tag "https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap", rel: "stylesheet" %>
+    <!-- Magnolia Script (usa un CDN si tienes el archivo, o Google Fonts si está disponible) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Magnolia Script: Si tienes el archivo TTF/OTF, súbelo y usa @font-face en tu CSS -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
   <body>
     <% if flash[:notice] %>
-      <div id="flash-notice" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-lg font-semibold">
+      <div id="flash-notice" class="fixed top-15 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-lg font-semibold cormorant-garamond">
         <%= flash[:notice] %>
       </div>
       <script>

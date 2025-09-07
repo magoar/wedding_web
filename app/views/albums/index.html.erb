@@ -1,4 +1,4 @@
-<div class="px-18 py-6">
+<!-- <div class="px-18 py-6">
   <div class="flex items-center justify-between mb-4">
     <h1 class="text-2xl font-bold">Photo Gallery</h1>
     <%= link_to "Add New Album", new_album_path, class: "bg-violet-700 text-white px-4 py-2 rounded shadow hover:bg-violet-800 transition" %>
@@ -12,6 +12,79 @@
           <% album.photos.each do |photo| %>
             <%= image_tag photo, class: "rounded shadow" %>
           <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div> -->
+
+<%= render "shared/navbar-gray" %>
+
+<div class="px-4 py-6 max-w-4xl mx-auto">
+
+  <div class="space-y-6">
+    <% @albums.each do |album| %>
+      <div class="bg-white shadow p-4 border border-black/80" x-data="{ open: false }">
+        <!-- Título, descripción y botón desplegable -->
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-black-700 text-xl font-semibold"><%= album.title %></p>
+            <p class="text-gray-500 text-sm mt-1"><%= album.description %></p>
+          </div>
+          <button @click="open = !open" class="text-green-700 hover:text-green-900 transition">
+            <svg x-bind:class="{'rotate-180': open}" class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Vista previa de las primeras fotos -->
+        <% if album.photos.attached? %>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+            <% album.photos.first(3).each do |photo| %>
+              <div class="relative group">
+                <%= image_tag photo, class: "w-full h-64 object-cover rounded shadow cursor-pointer", data: { action: "click->photo#open", url: url_for(photo) } %>
+                <div class="absolute top-2 right-2 hidden group-hover:flex">
+                  <%= link_to url_for(photo), download: "", class: "bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Sección desplegable: fotos restantes -->
+          <div x-show="open" x-transition class="mt-4">
+            <% remaining_photos = album.photos.drop(3) %>
+            <% if remaining_photos.any? %>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <% remaining_photos.each do |photo| %>
+                  <div class="relative group">
+                    <%= image_tag photo, class: "w-full h-64 object-cover rounded shadow cursor-pointer", data: { action: "click->photo#open", url: url_for(photo) } %>
+                    <div class="absolute top-2 right-2 hidden group-hover:flex">
+                      <%= link_to url_for(photo), download: "", class: "bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                        </svg>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="text-sm text-gray-400 italic">No more photos in this album.</p>
+            <% end %>
+
+            <!-- Botón para descargar álbum completo -->
+            <div class="mt-4">
+              <a href="" class="inline-block text-sm text-violet-700 underline hover:text-violet-900">Download Album</a>
+              <%# link_to "Download Entire Album", download_album_path(album), class: "inline-block text-sm text-violet-700 underline hover:text-violet-900" %>
+            </div>
+          </div>
+        <% else %>
+          <p class="text-gray-400 mt-2 italic">No photos uploaded yet.</p>
         <% end %>
       </div>
     <% end %>
