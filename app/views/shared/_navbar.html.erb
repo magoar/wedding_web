@@ -4,9 +4,9 @@
   <div class="container mx-auto flex justify-between items-center h-10 px-4">
 
     <!-- Logo / Nombre -->
-    <%= link_to root_path, class: "text-2xl font-light texto-color-rojo flex" do %>
+    <%= link_to root_path, class: "text-xl font-light texto-color-rojo flex items-center" do %>
     <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-10 h-10" %>
-      A&A
+      <h1>A&A</h1>
     <% end %>
     <!-- Botón RSVP -->
     <%= link_to "RSVP", new_confirmation_path, class: "color-principal text-white px-3 h-8 flex items-center rounded hover:bg-red-700 transition text-base" %>

@@ -46,7 +46,8 @@
 }
 
 .great-vibes {
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Great Vibes';
+  font-weight: normal;
 }
 
 .color-gold {
@@ -67,5 +68,11 @@
 
 .cormorant-garamond {
   font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+.lobster-two-bold-italic {
+  font-family: "Lobster Two", sans-serif;
+  font-weight: 300;
   font-style: italic;
 }
