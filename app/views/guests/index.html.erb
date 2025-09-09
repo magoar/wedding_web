@@ -1,8 +1,8 @@
 <h1 class="text-1xl font-extrabold my-6 text-center">Confirmed Guests</h1>
 
-<div class="flex items-center justify-center mb-8">
+<div class="flex justify-center mb-8">
   <span class="text-lg font-semibold mr-2 text-gray-700">Total guests:</span>
-  <span class="text-3xl font-black text-violet-700"><%= @total %></span>
+  <span class="text-xl font-black text-violet-700"><%= @total %></span>
 </div>
 
 <div class="overflow-x-auto">
@@ -11,13 +11,15 @@
       <tr class="bg-violet-100">
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Name</th>
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Companions</th>
+        <th class="py-3 px-6 text-left font-semibold text-violet-800">Message</th>
       </tr>
     </thead>
     <tbody>
       <% @guests.each_with_index do |guest, i| %>
-        <tr class="<%= i.even? ? 'bg-gray-50' : 'bg-white' %> hover:bg-violet-50 transition">
+        <tr class="<%= i.even? ? 'bg-gray-100' : 'bg-white' %> hover:bg-violet-50 transition">
           <td class="py-3 px-6 font-medium text-gray-900"><%= guest.name %></td>
           <td class="py-3 px-6 text-gray-700"><%= guest.guests_count %></td>
+          <td class="py-3 px-6 text-gray-700"><%= guest.message %></td>
         </tr>
       <% end %>
     </tbody>

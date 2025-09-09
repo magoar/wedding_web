@@ -11,7 +11,7 @@ class GuestsController < ApplicationController
   def create
     @guest = Guest.new(guest_params)
     if @guest.save
-      redirect_to root_path, notice: "Confirmation successfully sended. Thank you!gem"
+      redirect_to root_path, notice: "Confirmation sent successfully. Thank you!"
     else
       render :new, status: :unprocessable_entity
     end

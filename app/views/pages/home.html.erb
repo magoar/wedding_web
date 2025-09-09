@@ -1,10 +1,11 @@
 <!-- Pantalla Splash -->
-<div id="splash" class="fixed inset-0 color-principal flex flex-col items-center justify-center text-white z-50" style="display: none;">  <p class="text-2xl ">WEDDING</p>
-  <p class="text-2xl ">INVITATION</p>
+<div id="splash" class="fixed inset-0 color-principal flex flex-col items-center justify-center text-stroke color-gold text-3xl texturina-semibold font-bold z-50" style="display: none;">
+  <p class="">WEDDING</p>
+  <p class="">INVITATION</p>
   <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-60 h-60" %>
 
-  <p class="text-2xl font-light">MAJLIS</p>
-  <p class="text-2xl font-light">PERKAHWINAN</p>
+  <p class="">MAJLIS</p>
+  <p class="">PERKAHWINAN</p>
 </div>
 
 <%= render 'shared/navbar' %>
@@ -15,7 +16,7 @@
 <div class="relative bg-white flex flex-col items-center justify-center text-center py-2">
 
   <!-- Textos en columna -->
-  <div class="relative z-10 space-y-4 mt-1 color-gold">
+  <div class="relative z-10 space-y-4">
     <div class="absolute inset-0 bg-center bg-no-repeat bg-contain opacity-10"
       style="background-image: url('<%= asset_path("castlle.jpg") %>');">
     </div>
@@ -28,18 +29,17 @@
     <p class="text-xl  lobster-two-bold-italic">Olga Maria Silva Lopez<br>
                                     Diego Folgar Villaverde</p>
     <p class="cormorant-garamond">cordially invite you <br> dengan segala hormatnya mengundang anda</p>
-    <hr class="mx-auto w-2/3 my-4">
     <p class="cormorant-garamond">to the wedding reception of our children <br> ke majlis perkahwinan anakanda kami</p>
     <p class="text-xl lobster-two-bold-italic">Nur Aqilah Binte Hj Mohamed Kasim <br> & <br> Aaron Lorenzo Silva</p>
     <p class="cormorant-garamond">Your presence is greatly appreciated. <br>
-        Kehadiran dan doa restu anda amat dihargai</p>
+        Kehadiran dan doa restu anda amat dihargai.</p>
   </div>
 
   <div class="relative z-10 space-y-4 mt-7">
     <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-60 h-60" %>
   </div>
 
-<section id="event-info" class="relative max-w-2xl mx-auto mt-2 mb-12 overflow-hidden p-4 color-gold">
+<section id="event-info" class="relative max-w-2xl mx-auto mt-2 mb-12 overflow-hidden p-4">
   <!-- España arriba a la izquierda -->
   <div class="absolute top-0 left-0 opacity-10 pointer-events-none select-none z-0">
     <%= image_tag "espana.png", alt: "Spain Map", class: "h-40 w-auto object-contain object-right" %>
@@ -53,34 +53,35 @@
     <div class="grid grid-cols-3 gap-2 mb-2 text-left">
       <div>
         <div class="text-xs text-gray-700">Typ</div>
-        <div class="text-base font-black">WPA</div>
+        <div class="text-base font-black eb-garamond-italic">WPA</div>
       </div>
       <div>
         <div class="text-xs text-gray-700">Country Code</div>
-        <div class="text-base font-black">SGP</div>
+        <div class="text-base font-black eb-garamond-italic">SGP</div>
       </div>
       <div>
         <div class="text-xs text-gray-700">Passport No</div>
-        <div class="text-base font-black">16112025</div>
+        <div class="text-base font-black eb-garamond-italic">16112025</div>
       </div>
     </div>
     <!-- Las demás filas alineadas a la izquierda -->
     <div class="mb-6 text-left">
       <div class="text-xs text-gray-700">Date</div>
-      <div class="text-base font-black">16 NOV 2025</div>
-      <div class="text-base font-black">25 JUMADA AL-AWAL 1447</div>
+      <div class="text-base font-black eb-garamond-italic">16 NOV 2025</div>
+      <div class="text-base font-black eb-garamond-italic">25 JUMADA AL-AWAL 1447</div>
     </div>
     <div class="mb-6 text-left">
       <div class="text-xs text-gray-700">Day</div>
-      <div class="text-base font-black">Sunday</div>
+      <div class="text-base font-black eb-garamond-italic">Sunday</div>
     </div>
     <div class="mb-6 text-left">
       <div class="text-xs text-gray-700">Time</div>
-      <div class="text-base font-black">12:30 pm - 4:00 pm</div>
+      <div class="text-base font-black eb-garamond-italic">Seated By: 12:45 pm</div>
+      <div class="text-base font-black eb-garamond-italic">Event Ends At: 4:00 pm</div>
     </div>
     <div class="text-left">
       <div class="text-xs text-gray-700">Venue</div>
-      <div class="text-base font-black leading-tight">
+      <div class="text-base font-black leading-tight eb-garamond-italic">
         CROWNE PLAZA CHANGI AIRPORT<br>
         CHENGAL BALLROOM LEVEL 1
       </div>
@@ -95,7 +96,7 @@
   <!-- Botón flotante abajo a la derecha -->
   <a href="#event-info"
     id="event-details-btn"
-    class="fixed bottom-6 right-6 color-principal text-white px-3 py-1.5 rounded-full shadow-lg hover:bg-red-800 transition text-base font-semibold z-40 flex items-center gap-2 hidden cormorant-garamond">
+    class="fixed bottom-4 right-6 color-principal text-white px-3 py-1.5 rounded-full shadow-lg hover:bg-red-800 transition text-base font-semibold z-40 flex items-center gap-2 hidden cormorant-garamond">
     <span>See Event Details</span>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4m0 0l4-4m-4 4V3" />

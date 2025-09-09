@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WeddingWeb</title>
+    <title>A&A</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Oleo+Script+Swash+Caps:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Oleo+Script+Swash+Caps:wght@400;700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap", rel: "stylesheet" %>
     <%= stylesheet_link_tag "https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap", rel: "stylesheet" %>
-    <!-- Magnolia Script (usa un CDN si tienes el archivo, o Google Fonts si está disponible) -->
+    <!--Texturina-->
+    <link href="https://fonts.googleapis.com/css2?family=Texturina:ital,opsz,wght@0,12..72,100..900;1,12..72,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
     <!-- Magnolia Script: Si tienes el archivo TTF/OTF, súbelo y usa @font-face en tu CSS -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -21,7 +23,11 @@
 
   <body>
     <% if flash[:notice] %>
-      <div id="flash-notice" class="fixed top-15 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-lg font-semibold cormorant-garamond">
+      <div  id="flash-notice"
+            class="fixed top-20 left-1/2 transform -translate-x-1/2
+            bg-green-600 text-white px-6 py-3
+            rounded-lg shadow-lg z-50 text-lg font-semibold
+            cormorant-garamond max-w-2xl w-[80%] mx-auto text-center">
         <%= flash[:notice] %>
       </div>
       <script>

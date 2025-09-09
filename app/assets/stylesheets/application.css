@@ -54,6 +54,10 @@
   color: #EEBA2A;
 }
 
+.text-stroke {
+  -webkit-text-stroke: 1px #000;
+  text-stroke: 1px #000;
+}
 
 @font-face {
       font-family: 'Magnolia Script';
@@ -74,5 +78,19 @@
 .lobster-two-bold-italic {
   font-family: "Lobster Two", sans-serif;
   font-weight: 300;
+  font-style: italic;
+}
+
+
+.texturina-semibold {
+  font-family: "Texturina", serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+}
+
+.eb-garamond-italic {
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
   font-style: italic;
 }
