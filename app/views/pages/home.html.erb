@@ -1,40 +1,40 @@
 <!-- Pantalla Splash -->
-<div id="splash"
-    class="fixed inset-0 color-principal flex flex-col items-center justify-center
-          text-stroke color-gold text-3xl md:text-5xl lg:text-6xl
-          texturina-semibold font-bold z-50"
-    style="display: none;">
-  <p>WEDDING</p>
-  <p>INVITATION</p>
-  <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-40 h-40 md:w-60 md:h-60 lg:w-72 lg:h-72" %>
-  <p>MAJLIS</p>
-  <p>PERKAHWINAN</p>
+<div id="splash" class="fixed inset-0 color-principal flex flex-col items-center justify-center text-stroke color-gold text-3xl texturina-semibold font-bold z-50" style="display: none;">
+  <p class="">WEDDING</p>
+  <p class="">INVITATION</p>
+  <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-60 h-60" %>
+
+  <p class="">MAJLIS</p>
+  <p class="">PERKAHWINAN</p>
 </div>
 
 <%= render 'shared/navbar' %>
 
 <!-- Contenido Principal -->
-<main class="p-2 md:p-6 lg:p-10">
-
-  <div class="relative bg-white flex flex-col items-center justify-center text-center py-2 md:py-6 lg:py-10">
+<main class="md:px-6 lg:px-10">
 
     <!-- Textos en columna -->
-    <div class="relative z-10 space-y-4">
+    <div class="relative bg-white flex flex-col text-center space-y-4">
+
+      <!-- Imagen de fondo del texto principal-->
       <div class="absolute inset-0 bg-center bg-no-repeat bg-contain opacity-10"
         style="background-image: url('<%= asset_path("castlle.jpg") %>');">
       </div>
 
-      <p class="text-lg md:text-xl lg:text-2xl xl:text-3xl great-vibes">
+      <p class="text-lg md:text-xl lg:text-2xl xl:text-3xl great-vibes mt-4">
         السلام عليكم ورحمة الله وبركاته
       </p>
-      <p class="cormorant-garamond text-sm md:text-base lg:text-lg xl:text-xl">
+
+      <p class="cormorant-garamond text-base md:text-lg lg:text-xl">
         Peace be upon you, God’s mercy and blessings
       </p>
+
       <p class="text-xl md:text-2xl lg:text-3xl xl:text-4xl lobster-two-bold-italic">
         Hjh Amirba Binte Hj Abu Bakar <br>
         Hj Mohamed Kasim Bin Hj Mohd Ismail <br>
         Norjahan Binte Ya’akop
       </p>
+
       <p class="cormorant-garamond text-base md:text-lg lg:text-xl">
         together with <br> bersama
       </p>
@@ -51,88 +51,82 @@
       <p class="text-xl md:text-2xl lg:text-3xl xl:text-4xl lobster-two-bold-italic">
         Nur Aqilah Binte Hj Mohamed Kasim <br> & <br> Aaron Lorenzo Silva
       </p>
-      <p class="cormorant-garamond text-sm md:text-base lg:text-lg xl:text-xl">
+      <p class="cormorant-garamond text-base md:text-lg lg:text-xl">
         Your presence is greatly appreciated. <br>
         Kehadiran dan doa restu anda amat dihargai.
       </p>
     </div>
+  </div>
 
-    <!-- Logo secundario -->
+      <!-- Botón flotante abajo a la derecha -->
+  <a href="#event-info"
+    id="event-details-btn"
+    class="fixed bottom-4 right-6 color-principal text-white px-3 py-1.5 rounded-full shadow-lg hover:bg-red-800 transition text-base font-semibold z-40 flex items-center gap-2 hidden cormorant-garamond">
+    <span>See Event Details</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4m0 0l4-4m-4 4V3" />
+    </svg>
+  </a>
+
+  <div id="event-info">
+
+    <!-- Logo central -->
     <div class="relative z-10 space-y-4 mt-7">
-      <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-40 h-40 md:w-60 md:h-60 lg:w-72 lg:h-72" %>
+      <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-60 h-60" %>
     </div>
 
-    <!-- Información del evento -->
-    <section id="event-info"
-             class="relative max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto mt-4 mb-12 overflow-hidden p-4 md:p-6 lg:p-8">
-
-      <!-- España arriba izquierda -->
-      <div class="absolute top-0 left-0 opacity-10 pointer-events-none select-none z-0">
-        <%= image_tag "espana.png", alt: "Spain Map", class: "h-24 md:h-32 lg:h-48 xl:h-56 w-auto object-contain object-right" %>
+    <!-- Sección de información del evento -->
+    <section class="relative mx-auto mt-2 mb-12 overflow-hidden p-10">
+      <!-- España arriba a la izquierda -->
+      <div class="absolute top-0 left-0 opacity-10 pointer-events-none select-none z-0 p-4">
+        <%= image_tag "espana.png", alt: "Spain Map", class: "h-40 w-auto object-contain object-right" %>
       </div>
-
-      <!-- Singapur abajo derecha -->
-      <div class="absolute bottom-0 right-0 opacity-10 pointer-events-none select-none z-0 flex items-end">
-        <%= image_tag "singapur.jpg", alt: "Singapore Map", class: "h-24 md:h-32 lg:h-48 xl:h-56 w-auto object-contain object-right" %>
+      <!-- Singapur abajo a la derecha, pegado al borde -->
+      <div class="absolute bottom-0 right-0 opacity-10 pointer-events-none select-none z-0 flex items-end p-8">
+        <%= image_tag "singapur.jpg", alt: "Singapore Map", class: "h-40 w-auto object-contain object-right" %>
       </div>
-
       <div class="relative z-10 cormorant-garamond">
         <!-- Primera fila centrada -->
         <div class="grid grid-cols-3 gap-2 mb-2 text-left">
           <div>
             <div class="text-xs text-gray-700">Typ</div>
-            <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">WPA</div>
+            <div class="text-base font-black eb-garamond-italic">WPA</div>
           </div>
           <div>
             <div class="text-xs text-gray-700">Country Code</div>
-            <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">SGP</div>
+            <div class="text-base font-black eb-garamond-italic">SGP</div>
           </div>
           <div>
             <div class="text-xs text-gray-700">Passport No</div>
-            <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">16112025</div>
+            <div class="text-base font-black eb-garamond-italic">16112025</div>
           </div>
         </div>
-
-        <!-- Otras filas -->
+        <!-- Las demás filas alineadas a la izquierda -->
         <div class="mb-6 text-left">
           <div class="text-xs text-gray-700">Date</div>
-          <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">16 NOV 2025</div>
-          <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">25 JUMADA AL-AWAL 1447</div>
+          <div class="text-base font-black eb-garamond-italic">16 NOV 2025</div>
+          <div class="text-base font-black eb-garamond-italic">25 JUMADA AL-AWAL 1447</div>
         </div>
-
         <div class="mb-6 text-left">
           <div class="text-xs text-gray-700">Day</div>
-          <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">Sunday</div>
+          <div class="text-base font-black eb-garamond-italic">Sunday</div>
         </div>
-
         <div class="mb-6 text-left">
           <div class="text-xs text-gray-700">Time</div>
-          <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">Seated By: 12:45 pm</div>
-          <div class="text-base md:text-lg lg:text-xl font-black eb-garamond-italic">Event Ends At: 4:00 pm</div>
+          <div class="text-base font-black eb-garamond-italic">Seated By: 12:45 pm</div>
+          <div class="text-base font-black eb-garamond-italic">Event Ends At: 4:00 pm</div>
         </div>
-
         <div class="text-left">
           <div class="text-xs text-gray-700">Venue</div>
-          <div class="text-base md:text-lg lg:text-xl font-black leading-tight eb-garamond-italic">
+          <div class="text-base font-black leading-tight eb-garamond-italic">
             CROWNE PLAZA CHANGI AIRPORT<br>
             CHENGAL BALLROOM LEVEL 1
           </div>
         </div>
       </div>
     </section>
-  </div>
 
-  <!-- Botón flotante -->
-  <a href="#event-info"
-     id="event-details-btn"
-     class="fixed bottom-4 right-6 color-principal text-white px-3 py-1.5 md:px-4 md:py-2
-            rounded-full shadow-lg hover:bg-red-800 transition text-base md:text-lg
-            font-semibold z-40 flex items-center gap-2 hidden cormorant-garamond">
-    <span>See Event Details</span>
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 md:h-4 md:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4m0 0l4-4m-4 4V3" />
-    </svg>
-  </a>
+  </div>
 
 </main>
 
