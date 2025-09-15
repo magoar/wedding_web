@@ -1,7 +1,7 @@
 <!-- Pantalla Splash -->
 <div id="splash" class="fixed inset-0 color-principal flex flex-col items-center justify-center text-stroke color-gold text-3xl texturina-semibold font-bold z-50" style="display: none;">
   <p class="">WEDDING</p>
-  <p class="">INVITATION</p>
+  <p class="mb-6">INVITATION</p>
   <%= image_tag "image.png", alt: "Logo Wedding", class: "mx-auto w-60 h-60" %>
 
   <p class="">MAJLIS</p>
@@ -17,7 +17,7 @@
     <div class="relative bg-white flex flex-col text-center space-y-4 text-black">
 
       <!-- Imagen de fondo del texto principal-->
-      <div class="absolute inset-0 bg-center bg-no-repeat bg-contain opacity-10"
+      <div class="absolute inset-0 bg-center bg-no-repeat bg-contain opacity-8"
         style="background-image: url('<%= asset_path("castlle.jpg") %>');">
       </div>
 
@@ -26,7 +26,7 @@
       </p>
 
       <p class="cormorant-garamond text-lg md:text-lg lg:text-xl">
-        Peace be upon you, God’s mercy and blessings
+        May peace, mercy and blessings be upon you
       </p>
 
       <p class="text-2xl md:text-2xl lg:text-3xl xl:text-4xl lobster-two-bold-italic">
@@ -76,7 +76,8 @@
     </div>
 
     <!-- Sección de información del evento -->
-    <section class="relative mx-auto mt-2 mb-12 overflow-hidden p-10">
+    <section class="relative mt-2 mb-12 overflow-hidden p-10
+                max-w-2xl md:max-w-1/2 lg:max-w-1/3 mx-auto">
 
       <!-- España arriba a la izquierda -->
       <div class="absolute top-0 left-0 opacity-10 pointer-events-none select-none z-0 pt-14 px-8">
@@ -90,34 +91,36 @@
       <!-- Información del evento -->
       <div class="relative z-10 cormorant-garamond text-base">
         <!-- Primera fila centrada -->
-        <div class="grid grid-cols-3 gap-2 mb-2 text-left">
-          <div>
-            <div class="text-gray-700">Typ</div>
-            <div class="font-black eb-garamond-italic">WPA</div>
-          </div>
-          <div>
-            <div class="text-gray-700">Country Code</div>
-            <div class="font-black eb-garamond-italic">SGP</div>
-          </div>
-          <div>
-            <div class="text-gray-700">Passport No</div>
-            <div class="font-black eb-garamond-italic">16112025</div>
-          </div>
+      <div class="grid grid-cols-[70px_1fr_1fr] gap-3 mb-4">
+        <div class="text-left">
+          <div class="text-gray-700">Typ</div>
+          <div class="font-black eb-garamond-italic">WPA</div>
         </div>
+        <div class="text-left">
+          <div class="text-gray-700">Country Code</div>
+          <div class="font-black eb-garamond-italic">SGP</div>
+        </div>
+        <div class="text-left">
+          <div class="text-gray-700">Passport No</div>
+          <div class="font-black eb-garamond-italic">16112025</div>
+        </div>
+      </div>
+
+
         <!-- Las demás filas alineadas a la izquierda -->
         <div class="mb-6 text-left">
           <div class="text-gray-700">Date</div>
           <div class="font-black eb-garamond-italic">16 NOV 2025</div>
-          <div class="font-black eb-garamond-italic">25 JUMADA AL-AWAL 1447</div>
+          <div class="font-black eb-garamond-italic">25 JUMADA AWAL 1447</div>
         </div>
         <div class="mb-6 text-left">
           <div class="text-gray-700">Day</div>
-          <div class="font-black eb-garamond-italic">Sunday</div>
+          <div class="font-black eb-garamond-italic uppercase">Sunday</div>
         </div>
         <div class="mb-6 text-left">
           <div class="text-gray-700">Time</div>
-          <div class="font-black eb-garamond-italic">Seated By: 12:45 pm</div>
-          <div class="font-black eb-garamond-italic">Event Ends At: 4:00 pm</div>
+          <div class="font-black eb-garamond-italic uppercase">Seated By: 12:45 pm</div>
+          <div class="font-black eb-garamond-italic uppercase">Event Ends At: 4:00 pm</div>
         </div>
         <div class="text-left">
           <div class="text-gray-700">Venue</div>
