@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get "guests", to: "guests#index", as: :guests
   get "confirmation", to: "guests#new", as: :new_confirmation
   post "confirmation", to: "guests#create", as: :confirmations
+  resources :guests do
+    patch :assign_table, on: :member
+  end
 
   # Routes for the photo gallery
   get "gallery", to: "albums#index", as: :gallery

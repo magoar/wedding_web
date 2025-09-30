@@ -17,9 +17,18 @@ class GuestsController < ApplicationController
     end
   end
 
+  def assign_table
+    @guest = Guest.find(params[:id])
+    if @guest.update(table_number: params[:table_number])
+      redirect_to guests_path, notice: "Table assigned successfully."
+    else
+      redirect_to guests_path, alert: "Could not assign table."
+    end
+  end
+
   private
 
   def guest_params
-    params.require(:guest).permit(:name, :guests_count, :message)
+    params.require(:guest).permit(:name, :guests_count, :message, :table_number)
   end
 end

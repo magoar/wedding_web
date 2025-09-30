@@ -12,15 +12,28 @@
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Name</th>
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Companions</th>
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Message</th>
+        <th class="py-3 px-6 text-left font-semibold text-violet-800">Table</th> <
+        <th class="py-3 px-6 text-left font-semibold text-violet-800" ></th>
       </tr>
     </thead>
     <tbody>
-      <% @guests.each_with_index do |guest, i| %>
+      <% @guests.reverse.each_with_index do |guest, i| %>
         <tr class="<%= i.even? ? 'bg-gray-100' : 'bg-white' %> hover:bg-violet-50 transition">
           <td class="py-3 px-6 font-medium text-gray-900"><%= guest.name %></td>
           <td class="py-3 px-6 text-gray-700"><%= guest.guests_count %></td>
           <td class="py-3 px-6 text-gray-700"><%= guest.message %></td>
+          <td class="py-3 px-6 text-gray-700"><%= guest.table_number %></td>
+          <td class="py-3 px-6 text-gray-700">
+            <%= form_with url: assign_table_guest_path(guest), method: :patch, local: true do |f| %>
+              <div class="flex items-center space-x-2">
+                <%= f.select :table_number, options_for_select([["None", nil]] + (1..20).map { |n| [n, n] }, guest.table_number), {}, class: "border rounded px-2 py-1" %>
+                <%= f.submit "Save", class: "bg-violet-700 text-white px-3 py-1 rounded hover:bg-violet-800 transition" %>
+              </div>
+            <% end %>
+
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+</div>
