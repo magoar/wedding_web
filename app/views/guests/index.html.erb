@@ -13,27 +13,262 @@
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Companions</th>
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Message</th>
         <th class="py-3 px-6 text-left font-semibold text-violet-800">Table</th>
-        <th class="py-3 px-6 text-left font-semibold text-violet-800" ></th>
       </tr>
     </thead>
     <tbody>
-      <% @guests.reverse.each_with_index do |guest, i| %>
+      <% @guests.each_with_index do |guest, i| %>
         <tr class="<%= i.even? ? 'bg-gray-100' : 'bg-white' %> hover:bg-violet-50 transition">
           <td class="py-3 px-6 font-medium text-gray-900"><%= guest.name %></td>
-          <td class="py-3 px-6 text-gray-700"><%= guest.guests_count %></td>
-          <td class="py-3 px-6 text-gray-700"><%= guest.message %></td>
-          <td class="py-3 px-6 text-gray-700"><%= guest.table_number %></td>
+          <!-- editable companions cell: value + Edit button -->
           <td class="py-3 px-6 text-gray-700">
-            <%= form_with url: assign_table_guest_path(guest), method: :patch, local: true do |f| %>
-              <div class="flex items-center space-x-2">
-                <%= f.select :table_number, options_for_select([["None", nil]] + (1..20).map { |n| [n, n] }, guest.table_number), {}, class: "border rounded px-2 py-1" %>
-                <%= f.submit "Save", class: "bg-violet-700 text-white px-3 py-1 rounded hover:bg-violet-800 transition" %>
-              </div>
-            <% end %>
-
+            <span class="guests-count-value" data-guest-id="<%= guest.id %>"><%= guest.guests_count || 0 %></span>
+            <button type="button"
+                    class="ml-3 text-sm px-2 py-1 bg-gray-200 rounded edit-guests-btn"
+                    data-guest-id="<%= guest.id %>"
+                    data-guest-count="<%= guest.guests_count || 0 %>"
+                    aria-label="Edit companions for <%= guest.name %>">
+              Edit
+            </button>
+          </td>
+          <td class="py-3 px-6 text-gray-700"><%= guest.message %></td>
+          <td class="py-3 px-6 text-gray-700">
+            <div class="flex items-center gap-2 sm:gap-3 whitespace-nowrap">
+              <span class="guest-table-value font-bold" data-guest-id="<%= guest.id %>">
+                <%= guest.table_number.to_i == 22 ? "VIP" : (guest.table_number.presence || "None") %>
+              </span>
+              <button type="button"
+                      class="text-sm px-2 py-1 bg-gray-200 rounded edit-table-btn flex-shrink-0"
+                      data-guest-id="<%= guest.id %>"
+                      data-guest-table="<%= guest.table_number %>"
+                      aria-label="Edit table for <%= guest.name %>">
+                Edit
+              </button>
+            </div>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
+<!-- Modal (hidden by default) -->
+<div id="edit-guests-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div class="fixed inset-0 bg-black/50" data-modal-backdrop></div>
+  <div class="bg-white rounded-lg shadow-lg p-6 z-60 w-[90%] max-w-md">
+    <h3 class="text-lg font-semibold mb-4">Edit companions</h3>
+
+    <div class="flex items-center justify-center gap-4 mb-4">
+      <button id="decrease-btn" class="px-3 py-1 bg-gray-200 rounded">-1</button>
+      <input id="modal-guests-count" type="number" min="0" class="w-20 text-center border rounded px-2 py-1" />
+      <button id="increase-btn" class="px-3 py-1 bg-gray-200 rounded">+1</button>
+    </div>
+
+    <div class="flex justify-end gap-3">
+      <button id="cancel-edit-btn" class="px-3 py-1 rounded border">Cancel</button>
+      <button id="save-edit-btn" class="px-4 py-1 rounded bg-violet-700 text-white">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Inline script to handle modal + PATCH -->
+<script>
+  (function(){
+    const modal = document.getElementById('edit-guests-modal');
+    const backdrop = modal && modal.querySelector('[data-modal-backdrop]');
+    const input = document.getElementById('modal-guests-count');
+    const inc = document.getElementById('increase-btn');
+    const dec = document.getElementById('decrease-btn');
+    const saveBtn = document.getElementById('save-edit-btn');
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    const totalEl = document.getElementById('total-guests');
+    let currentGuestId = null;
+    let originalValue = 0;
+
+    function openModal(guestId, value){
+      currentGuestId = guestId;
+      originalValue = Number(value || 0);
+      input.value = originalValue;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      input.focus();
+    }
+    function closeModal(){
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      currentGuestId = null;
+    }
+
+    document.querySelectorAll('.edit-guests-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = btn.dataset.guestId;
+        const count = btn.dataset.guestCount;
+        openModal(id, count);
+      });
+    });
+
+    if (inc) inc.addEventListener('click', ()=> { input.value = Number(input.value||0) + 1; });
+    if (dec) dec.addEventListener('click', ()=> { input.value = Math.max(0, Number(input.value||0) - 1); });
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+
+    async function saveChange(){
+      if (!currentGuestId) return;
+      const newValue = input.value === '' ? null : Number(input.value);
+      const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+      try {
+        const res = await fetch(`/guests/${currentGuestId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': token,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ guest: { guests_count: newValue } })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(()=>null);
+          alert('Could not save: ' + (err && err.errors ? err.errors.join(', ') : res.statusText));
+          return;
+        }
+
+        // update cell value in table
+        const cellSpan = document.querySelector('.guests-count-value[data-guest-id="'+currentGuestId+'"]');
+        if (cellSpan) cellSpan.textContent = newValue || 0;
+
+        // update total display (adjust by delta)
+        if (totalEl) {
+          const oldTotal = Number(totalEl.textContent || 0);
+          const delta = (Number(newValue || 0) - Number(originalValue || 0));
+          totalEl.textContent = oldTotal + delta;
+        }
+
+        closeModal();
+      } catch (err) {
+        console.error(err);
+        alert('Network error while saving.');
+      }
+    }
+
+    if (saveBtn) saveBtn.addEventListener('click', saveChange);
+
+    // allow Enter to save, Esc to cancel
+    document.addEventListener('keydown', function(e){
+      if (!modal || modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Enter') saveChange();
+    });
+  })();
+</script>
+
+<!-- Table edit modal (hidden by default) -->
+<div id="edit-table-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div class="fixed inset-0 bg-black/50" data-table-modal-backdrop></div>
+  <div class="bg-white rounded-lg shadow-lg p-6 z-60 w-[90%] max-w-md">
+    <h3 class="text-lg font-semibold mb-4">Edit table</h3>
+
+    <div class="mb-4">
+      <label for="modal-table-select" class="block text-sm text-gray-700 mb-2">Select table</label>
+      <select id="modal-table-select" class="w-full border rounded px-2 py-1">
+        <option value="">None</option>
+        <% (1..21).to_a.reject { |n| [4,14].include?(n) }.each do |n| %>
+          <option value="<%= n %>"><%= n %></option>
+        <% end %>
+        <option value="22">VIP</option>
+      </select>
+    </div>
+
+    <div class="flex justify-end gap-3">
+      <button id="cancel-table-edit-btn" class="px-3 py-1 rounded border">Cancel</button>
+      <button id="save-table-edit-btn" class="px-4 py-1 rounded bg-violet-700 text-white">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Inline script to handle table modal + PATCH -->
+<script>
+  (function(){
+    const tableModal = document.getElementById('edit-table-modal');
+    const backdrop = tableModal && tableModal.querySelector('[data-table-modal-backdrop]');
+    const select = document.getElementById('modal-table-select');
+    const saveBtn = document.getElementById('save-table-edit-btn');
+    const cancelBtn = document.getElementById('cancel-table-edit-btn');
+    let currentGuestId = null;
+
+    function openTableModal(guestId, tableValue){
+      currentGuestId = guestId;
+      // normalize: nil/"" -> "", VIP(22) -> "22"
+      select.value = tableValue == null ? "" : String(tableValue);
+      tableModal.classList.remove('hidden');
+      tableModal.classList.add('flex');
+      select.focus();
+    }
+    function closeTableModal(){
+      tableModal.classList.add('hidden');
+      tableModal.classList.remove('flex');
+      currentGuestId = null;
+    }
+
+    document.querySelectorAll('.edit-table-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.guestId;
+        const tableVal = btn.dataset.guestTable;
+        openTableModal(id, tableVal);
+      });
+    });
+
+    if (cancelBtn) cancelBtn.addEventListener('click', closeTableModal);
+    if (backdrop) backdrop.addEventListener('click', closeTableModal);
+
+    async function saveTableChange(){
+      if (!currentGuestId) return;
+      // read select value; empty -> null, else number (22 for VIP)
+      const raw = select.value;
+      const tableParam = raw === "" ? null : Number(raw);
+      const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+      try {
+        const res = await fetch(`/guests/${currentGuestId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': token,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ guest: { table_number: tableParam } })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(()=>null);
+          alert('Could not save: ' + (err && err.errors ? err.errors.join(', ') : res.statusText));
+          return;
+        }
+
+        // update table cell text
+        const cell = document.querySelector('.guest-table-value[data-guest-id="'+currentGuestId+'"]');
+        if (cell) {
+          if (tableParam === 22) cell.textContent = 'VIP';
+          else if (tableParam === null) cell.textContent = 'None';
+          else cell.textContent = String(tableParam);
+        }
+
+        // optional: reload to refresh totals or other derived data
+        // location.reload();
+
+        closeTableModal();
+      } catch (err) {
+        console.error(err);
+        alert('Network error while saving.');
+      }
+    }
+
+    if (saveBtn) saveBtn.addEventListener('click', saveTableChange);
+
+    document.addEventListener('keydown', function(e){
+      if (!tableModal || tableModal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeTableModal();
+      if (e.key === 'Enter') saveTableChange();
+    });
+  })();
+</script>
