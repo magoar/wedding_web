@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'albums/index'
 
   # Home page route
   root 'pages#home'
@@ -15,8 +14,12 @@ Rails.application.routes.draw do
 
   # Routes for the photo gallery
   get "gallery", to: "albums#index", as: :gallery
-  resources :albums
 
+  resources :albums do
+    member do
+      get :download
+    end
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

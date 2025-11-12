@@ -1,14 +1,16 @@
 <!-- app/views/shared/_navbar.html.erb -->
-<nav class="bg-gray-100 p-4">
-  <div class="container mx-auto flex justify-around items-center">
-    <%= link_to root_path do%>
-      <span class="font-thin text-4xl">A&A</span>
-      <span class="text-3xl font-thin text-black/80 ms-4">Photo Gallery</span>
+<nav class="bg-gray-100 p-4 sticky top-0 z-50 shadow-sm">
+  <div class="container mx-auto flex items-center justify-between gap-4">
+    <%= link_to root_path, class: "flex items-center gap-3 min-w-0" do%>
+      <span class="font-thin text-3xl sm:text-5xl flex-shrink-0 leading-none">A&A</span>
+      <span class="text-base sm:text-2xl md:text-3xl font-thin text-black/80 ms-1 truncate">Photo Gallery</span>
     <% end %>
 
-    <ul class="flex gap-12 items-center">
-
-      <li><%= link_to "Add New Album", new_album_path, class: "inline-block text-black/80 border border-black/40 font-thin px-8 py-4 hover:bg-black/80 hover:text-white transition" %></li>
+    <ul class="flex gap-4 items-center">
+      <li>
+        <%= link_to "Add New Album", new_album_path,
+              class: "inline-block text-black/80 border border-black/40 font-thin text-sm sm:text-base px-3 py-1 sm:px-8 sm:py-4 hover:bg-black/80 hover:text-white transition whitespace-nowrap" %>
+      </li>
     </ul>
   </div>
 </nav>
