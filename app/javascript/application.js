@@ -1,4 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+import * as ActiveStorage from "@rails/activestorage"
+ActiveStorage.start()
+
 import "@hotwired/turbo-rails"
 import "controllers"
 
@@ -37,4 +40,49 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   setInterval(updateCountdown, 1000);
   updateCountdown();
+});
+
+
+document.addEventListener("turbo:load", () => {
+  const btn = document.getElementById("cloudinary_upload_button");
+  if (!btn) return;
+
+  const widget = cloudinary.createUploadWidget({
+    cloudName: "dera4cgch",
+    uploadPreset: "wedding_unsigned",
+    multiple: true,
+    resourceType: "auto"
+  }, (error, result) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    if (result.event === "success") {
+      console.log("Uploaded:", result.info);
+
+      // Enviamos la URL a Rails
+      fetch("/albums/upload_direct", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content
+        },
+        body: JSON.stringify({
+          album_id: btn.dataset.albumId, // asegúrate de tener data-album-id en el botón
+          file_url: result.info.secure_url
+        })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Upload to Rails failed");
+        console.log("File attached to album!");
+        // Aquí podrías refrescar la galería si quieres
+      })
+      .catch(console.error);
+    }
+  });
+
+  btn.addEventListener("click", function () {
+    widget.open();
+  });
 });

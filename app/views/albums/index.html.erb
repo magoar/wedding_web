@@ -20,12 +20,21 @@
 
 <%= render "shared/navbar-gray" %>
 
+<%# show notice coming either via flash or via ?notice=... (widget redirect) %>
+<% if flash[:notice].present? || params[:notice].present? %>
+  <div class="max-w-4xl mx-auto px-4 mt-4">
+    <div class="rounded-md bg-green-50 border border-green-200 p-3 text-green-800 text-sm">
+      <%= (flash[:notice] || params[:notice]) %>
+    </div>
+  </div>
+<% end %>
+
 <div class="px-4 py-6 max-w-4xl mx-auto">
 
   <div class="space-y-6">
 
     <% if @albums.any? %>
-    <% @albums.each do |album| %>
+    <% @albums.select { |album| album.photos.attached? }.each do |album| %>
       <div class="bg-white shadow p-4 border border-black/80 relative" x-data="{ open: false }">
         <!-- Título, descripción y botón desplegable -->
         <div class="flex justify-between items-center">
@@ -55,16 +64,16 @@
               <div class="relative group">
 
                 <% if attachment.content_type.start_with?("image/") %>
-                  <%= image_tag attachment, class: "w-full h-64 object-cover rounded shadow cursor-pointer", data: { action: "click->photo#open", url: url_for(attachment) } %>
+                  <%= image_tag attachment, class: "w-full h-64 object-cover rounded shadow cursor-pointer", data: { action: "click->photo#open", url: attachment.url } %>
                 <% elsif attachment.content_type.start_with?("video/") %>
                   <video class="w-full h-64 object-cover rounded shadow cursor-pointer" controls>
-                    <source src="<%= url_for(attachment) %>" type="<%= attachment.content_type %>">
+                    <source src="<%= attachment.url %>" type="video/mp4">
                   </video>
                 <% end %>
 
                 <div class="absolute top-2 right-2 flex items-center gap-2">
                   <!-- mobile: visible (sm:hidden) -->
-                  <%= link_to url_for(attachment), download: true, class: "sm:hidden bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
+                  <%= link_to attachment.url, download: true, class: "sm:hidden bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
                     <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
                     </svg>
@@ -72,7 +81,7 @@
 
                   <!-- desktop: hidden by default, appear on group-hover (hidden on small screens) -->
                   <div class="hidden sm:flex group-hover:flex">
-                    <%= link_to url_for(attachment), download: true, class: "bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
+                    <%= link_to attachment.url, download: true, class: "bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
                       <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
                       </svg>
@@ -91,15 +100,17 @@
                 <% remaining_photos.each do |attachment| %>
                   <div class="relative group">
                     <% if attachment.content_type.start_with?("image/") %>
-                      <%= image_tag attachment, class: "w-full h-64 object-cover rounded shadow cursor-pointer", data: { action: "click->photo#open", url: url_for(attachment) } %>
+                      <%= image_tag attachment, class: "w-full h-64 object-cover rounded shadow cursor-pointer", data: { action: "click->photo#open", url: attachment.url } %>
                     <% elsif attachment.content_type.start_with?("video/") %>
-                      <video class="w-full h-64 object-cover rounded shadow cursor-pointer" controls>
-                        <source src="<%= url_for(attachment) %>" type="<%= attachment.content_type %>">
-                      </video>
+                      <% if attachment.content_type.start_with?("video/") %>
+                        <video class="w-full h-64 object-cover rounded shadow" controls>
+                          <source src="<%= attachment.url %>" type="video/mp4">
+                        </video>
+                      <% end %>
                     <% end %>
                     <div class="absolute top-2 right-2 flex items-center gap-2">
                       <!-- mobile: visible (sm:hidden) -->
-                      <%= link_to url_for(attachment), download: true, class: "sm:hidden bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
+                      <%= link_to attachment.url, download: true, class: "sm:hidden bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
                         <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
                         </svg>
@@ -107,7 +118,7 @@
 
                       <!-- desktop: hidden by default, appear on group-hover (hidden on small screens) -->
                       <div class="hidden sm:flex group-hover:flex">
-                        <%= link_to url_for(attachment), download: true, class: "bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
+                        <%= link_to attachment.url, download: true, class: "bg-white p-2 rounded-full shadow hover:bg-gray-100", title: "Download" do %>
                           <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
                           </svg>
@@ -143,4 +154,110 @@
       <p class="text-gray-500 italic">No albums uploaded yet.</p>
     <% end %>
   </div>
+
+<!-- Lightbox modal (shared) -->
+<div id="album-lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
+  <div class="relative max-w-3xl w-full">
+    <button id="lb-close" class="absolute top-3 right-3 text-white bg-black/40 p-2 rounded">×</button>
+    <div id="lb-content" class="bg-black rounded-lg overflow-hidden flex items-center justify-center" style="min-height:320px;"></div>
+    <div class="mt-3 flex items-center justify-between text-white">
+      <div id="lb-caption" class="text-sm"></div>
+      <div class="flex items-center gap-2">
+        <button id="lb-prev" class="text-white bg-black/40 px-3 py-1 rounded">Prev</button>
+        <button id="lb-next" class="text-white bg-black/40 px-3 py-1 rounded">Next</button>
+      </div>
+    </div>
+  </div>
 </div>
+</div>
+
+<script>
+  (function(){
+    const lightbox = document.getElementById('album-lightbox');
+    const content = document.getElementById('lb-content');
+    const caption = document.getElementById('lb-caption');
+    const btnClose = document.getElementById('lb-close');
+    const btnNext = document.getElementById('lb-next');
+    const btnPrev = document.getElementById('lb-prev');
+
+    let items = []; // {url, type, title}
+    let current = 0;
+
+    // attach clicks for images/videos inside each album card
+    document.querySelectorAll('[data-url]').forEach((node) => {
+      node.addEventListener('click', (e) => {
+        e.preventDefault();
+        // find all nodes in the same album container
+        const albumCard = node.closest('[x-data]') || node.closest('.album-card') || document;
+        const nodes = Array.from(albumCard.querySelectorAll('[data-url]'));
+        items = nodes.map(n => {
+          const url = n.dataset.url;
+          const t = (n.tagName.toLowerCase() === 'img' || (n.dataset.type && n.dataset.type.startsWith('image'))) ? 'image' : 'video';
+          const title = n.getAttribute('alt') || n.dataset.caption || '';
+          return { url, type: t, title };
+        });
+        current = nodes.indexOf(node);
+        openLightbox(current);
+      });
+    });
+
+    function openLightbox(index){
+      current = index || 0;
+      render();
+      lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      lightbox.classList.add('hidden');
+      content.innerHTML = '';
+      caption.textContent = '';
+      document.body.style.overflow = '';
+    }
+
+    function render(){
+      const it = items[current];
+      if (!it) return;
+      content.innerHTML = '';
+      caption.textContent = (current+1) + ' / ' + items.length + (it.title ? ' · ' + it.title : '');
+      if (it.type === 'image') {
+        const img = document.createElement('img');
+        img.src = it.url;
+        img.className = 'w-full h-auto max-h-[70vh] object-contain';
+        content.appendChild(img);
+      } else {
+        const vid = document.createElement('video');
+        vid.src = it.url;
+        vid.controls = true;
+        vid.className = 'w-full h-auto max-h-[70vh] object-contain';
+        content.appendChild(vid);
+      }
+    }
+
+    function next(){ current = (current + 1) % items.length; render(); }
+    function prev(){ current = (current - 1 + items.length) % items.length; render(); }
+
+    btnClose && btnClose.addEventListener('click', closeLightbox);
+    btnNext && btnNext.addEventListener('click', next);
+    btnPrev && btnPrev.addEventListener('click', prev);
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+
+    // touch swipe
+    let touchStartX = 0;
+    content && content.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    content && content.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (dx > 40) prev();
+      else if (dx < -40) next();
+    });
+
+    // click outside to close
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  })();
+</script>
